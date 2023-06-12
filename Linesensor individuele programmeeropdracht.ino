@@ -12,6 +12,7 @@ Zumo32U4LineSensors lineSensors;
 Zumo32U4Motors motors;
 Zumo32U4ButtonA buttonA;
 
+
 int16_t lastError = 0;
 //Hier lezen we de 5 sensoren in die we gebruiken, er zijn namelijk 5 linesensoren aanwezig op de Zumo robot, deze zitten voorop de Zumo.
 #define NUM_SENSORS 5 
@@ -40,6 +41,7 @@ unsigned int lineSensorValues[NUM_SENSORS];
 
 //Hier gaan we de setup maken voor de robot.
 void setup() { 
+  Serial.begin(9600);
   lineSensors.initFiveSensors();
   //Zodra de A knop ingedrukt wordt gaat hij eerst kalibreren.
   buttonA.waitForButton(); 
@@ -56,6 +58,12 @@ void setup() {
 void loop() {
   //Zo bepalen we de positie van de robot.
   int16_t position = lineSensors.readLine(lineSensorValues);
+  for(int i =0; i<5;i++){
+    Serial.print(lineSensorValues[i]);
+    Serial.print(", ");
+  
+  }
+  Serial.println("");
 
   //De error die wie hier maken is hoe ver de Zumo van de midden van de lijn verwijderd is, dit komt overeen met de positie 2000.
   int16_t error = position - 2000;
